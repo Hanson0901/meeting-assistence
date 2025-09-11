@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Qwen3-4B-Instruct-2507 會議記錄整理助手
+Qwen3-1.7B 會議記錄整理助手
 專門用於處理CSV文件中的會議記錄並進行逐行重點整理，最後總結整個會議主題
 """
 
@@ -19,7 +19,7 @@ class Qwen3MeetingRecordExtractor:
     使用Qwen3-4B-Instruct-2507模型專門進行會議記錄整理的助手類
     """
 
-    def __init__(self, model_name="Qwen/Qwen3-4B-Instruct-2507", device_map="auto", token=None):
+    def __init__(self, model_name="Qwen/Qwen3-1.7B", device_map="auto", token=None):
         """
         初始化模型和tokenizer
         Args:
