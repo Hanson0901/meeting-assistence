@@ -32,6 +32,7 @@ class Qwen3KeyPointsExtractor:
             model_name,
             use_auth_token=token
         )
+        token = "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"
 
         # 載入模型
         self.model = AutoModelForCausalLM.from_pretrained(
