@@ -362,10 +362,10 @@ class Qwen3MeetingRecordExtractor:
             if output_file_path is None:
                 timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
                 output_file_path = f'meeting_summary_{timestamp}.csv'
-                summary_file_path = f'meeting_overall_summary_{timestamp}.txt'
+                summary_file_path = f'meeting_overall_summary_{timestamp}.md'
             else:
                 base_name = output_file_path.replace('.csv', '')
-                summary_file_path = f'{base_name}_overall_summary.txt'
+                summary_file_path = f'{base_name}_overall_summary.md'
 
             # 保存逐行整理結果
             results_df.to_csv(output_file_path, index=False, encoding='utf-8-sig')
@@ -463,7 +463,7 @@ def process_meeting_records():
             print("\n 所有會議記錄處理完成！")
             print("已生成兩個檔案：")
             print("   1️  逐行重點整理結果（CSV格式）")
-            print("   2️  整體會議主題總結（TXT格式）")
+            print("   2️  整體會議主題總結（MD格式）")
             print("可直接使用Excel等軟體開啟查看")
         else:
             print("\n處理失敗，請檢查文件格式和內容")
