@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Qwen3-4B-Instruct-2507 會議記錄整理助手 (記憶體優化版本)
+Qwen3-8B-Base 會議記錄整理助手 (記憶體優化版本)
 專門用於處理CSV文件中的會議記錄並進行逐行重點整理，最後總結整個會議主題
 """
 
@@ -17,14 +17,14 @@ warnings.filterwarnings("ignore")
 
 class Qwen3MeetingRecordExtractor:
     """
-    使用Qwen3-4B-Instruct-2507模型專門進行會議記錄整理的助手類（記憶體優化版本）
+    使用Qwen3-8B-Base模型專門進行會議記錄整理的助手類（記憶體優化版本）
     """
 
-    def __init__(self, model_name="Qwen/Qwen3-4B-Instruct-2507", device_map="auto", token=None):
+    def __init__(self, model_name="Qwen/Qwen3-8B-Base", device_map="auto", token=None):
         """
         初始化模型和tokenizer
         """
-        print("正在載入Qwen3-4B-Instruct-2507模型（記憶體優化版本）...")
+        print("正在載入Qwen3-8B-Base模型（記憶體優化版本）...")
         print("注意：首次載入可能需要數分鐘時間下載模型檔案")
 
         # 設置授權Token
@@ -39,7 +39,7 @@ class Qwen3MeetingRecordExtractor:
         # 載入模型
         self.model = AutoModelForCausalLM.from_pretrained(
             model_name,
-            torch_dtype="auto",
+            dtype="auto",
             device_map=device_map,
             trust_remote_code=True,
             low_cpu_mem_usage=True,
@@ -80,7 +80,7 @@ class Qwen3MeetingRecordExtractor:
 - [決策內容]（如有）
 
 ### 行動項目
-- [待辦事項]（如有）
+- [待辦事項]（如有以待辦事項為標題）
 
 ### 總結
 [一句話總結本段會議內容的核心]
@@ -158,7 +158,7 @@ class Qwen3MeetingRecordExtractor:
             torch.cuda.empty_cache()
         gc.collect()
 
-    def generate_meeting_summary(self, text, max_tokens=512, temperature=0.7, top_p=0.8, top_k=20):
+    def generate_meeting_summary(self, text, max_tokens=512, temperature=0.5, top_p=0.8, top_k=20):
         """
         生成會議記錄重點整理
         """
@@ -398,10 +398,10 @@ class Qwen3MeetingRecordExtractor:
             if output_file_path is None:
                 timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
                 output_file_path = f'meeting_summary_{timestamp}.csv'
-                summary_file_path = f'meeting_overall_summary_{timestamp}.txt'
+                summary_file_path = f'meeting_overall_summary_{timestamp}.md'
             else:
                 base_name = output_file_path.replace('.csv', '')
-                summary_file_path = f'{base_name}_overall_summary.txt'
+                summary_file_path = f'{base_name}_overall_summary.md'
 
             # 保存逐行整理結果
             results_df.to_csv(output_file_path, index=False, encoding='utf-8-sig')
@@ -484,7 +484,7 @@ def process_meeting_records():
 
         print(f"\n開始處理CSV文件: {csv_file}")
 
-        # 處理CSV文件
+        # 處理CSV文件                        
         result = extractor.process_csv_file(csv_file)
 
         if result is not None:
